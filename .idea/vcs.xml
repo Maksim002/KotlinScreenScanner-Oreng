@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/Android-Image-Cropper" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/FilePickerKotlin" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/InstituteOfMiningp-oreng" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/MapGL-Android" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/MapGL-Android-1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/MapGL-Android-2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/android-2gis-tiles" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/android-SDKs-for-tiles" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/android-tile-provider-for-2gis" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/camerakit-android" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/mapsapi" vcs="Git" />
+  </component>
+</project>
