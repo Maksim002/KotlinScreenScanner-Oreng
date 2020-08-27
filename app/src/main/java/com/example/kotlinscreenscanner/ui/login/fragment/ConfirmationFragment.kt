@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.kotlinscreenscanner.R
+import com.example.kotlinscreenscanner.adapter.ListenerViewPager
 
-class ConfirmationFragment : Fragment(){
+class ConfirmationFragment(var listener: ListenerViewPager) : Fragment(){
 
     override fun onCreateView(
         inflater: LayoutInflater,

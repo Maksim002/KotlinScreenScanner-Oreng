@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
                 when (result.status) {
                     Status.SUCCESS -> {
                         if (data!!.result == null){
-                            Toast.makeText(this, data.generalError.message, Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, data.error.message, Toast.LENGTH_LONG).show()
                         }else{
                             startMainActivity()
                         }

@@ -45,6 +45,12 @@ object AppPreferences {
             it.putString("email", value)
         }
 
+    var id: Int
+        get() = preferences.getInt("id", id)
+        set(value) = preferences.edit {
+            it.putInt("id", value)
+        }
+
 
     fun clear() {
         preferences.edit {

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.kotlinscreenscanner.service.model.CommonResponse
 import com.example.kotlinscreenscanner.service.model.NumberPhoneModel
 import com.example.kotlinscreenscanner.service.model.ResultPhoneModel
+import com.example.kotlinscreenscanner.service.model.SmsResultModel
 import com.example.myapplication.model.AuthModel
 import com.example.myapplication.model.ResultModel
 import com.timelysoft.tsjdomcom.service.NetworkRepository
@@ -18,8 +19,11 @@ class LoginViewModel : ViewModel() {
         return repository.auth(params)
     }
 
-
     fun numberPhones(phone:  Map<String, String>): LiveData<ResultStatus<CommonResponse<ResultPhoneModel>>> {
         return repository.numberPhone(phone)
+    }
+
+    fun smsConfirmation(phone:  Map<String, Int>): LiveData<ResultStatus<CommonResponse<SmsResultModel>>> {
+        return repository.smsConfirmation(phone)
     }
 }

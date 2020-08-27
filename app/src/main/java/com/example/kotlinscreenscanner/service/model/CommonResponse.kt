@@ -6,6 +6,6 @@ import com.google.gson.annotations.SerializedName
 class CommonResponse<T>(
     @SerializedName("result")
     val result: T,
-    val generalError: GeneralErrorModel,
+    val error: GeneralErrorModel,
     val code: Int
 )

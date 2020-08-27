@@ -45,4 +45,24 @@ class NetworkRepository {
             emit(ResultStatus.netwrok("Проблеммы с подключением интернета", null))
         }
     }
+
+    fun smsConfirmation(map: Map<String,Int>) = liveData(Dispatchers.IO) {
+        try {
+            val response = RetrofitService.apiService().smsConfirmation(map)
+            when {
+                response.isSuccessful -> {
+                    if (response.body() != null) {
+                        emit(ResultStatus.success(response.body()))
+                    } else {
+                        emit(ResultStatus.error("Ваш sms код подтверждён"))
+                    }
+                }
+                else -> {
+                    emit(ResultStatus.error("Не известная ошибка"))
+                }
+            }
+        } catch (e: Exception) {
+            emit(ResultStatus.netwrok("Проблеммы с подключением интернета", null))
+        }
+    }
 }
