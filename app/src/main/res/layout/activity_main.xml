@@ -6,7 +6,7 @@
     android:padding="16dp"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.login.MainActivity">
 
     <TextView
         android:layout_width="match_parent"

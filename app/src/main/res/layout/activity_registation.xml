@@ -1,69 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:padding="16dp"
     android:layout_height="match_parent">
 
-    <TextView
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/registration_viewpager"
         android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/nav_view"
+        android:layout_height="0dp" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Вход"
-        android:textColor="#001"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:textSize="30sp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:padding="16dp"
-        android:layout_marginTop="37dp"
-        android:gravity="center"
-        android:textSize="16dp"
-        android:textColor="#001"
-        android:layout_marginBottom="25dp"
-        android:layout_height="wrap_content"
-        android:text="Введите номер телефона и нажмите “Далее”"/>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:cardCornerRadius="8dp">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/main_login"
-            android:layout_width="match_parent"
-            android:padding="8dp"
-            android:background="#E8E8E8"
-            android:layout_height="wrap_content">
-
-            <AutoCompleteTextView
-                android:id="@+id/main_text_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textSize="16dp"
-                android:background="@null"
-                android:imeOptions="actionNext"
-                android:hint="Номер телефона"
-                android:inputType="textEmailAddress" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </androidx.cardview.widget.CardView>
-
-    <Button
-        android:id="@+id/main_enter"
-        style="@style/RoundedOrangeBackground"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:background="?android:attr/windowBackground"
+        app:itemIconTint="@drawable/bottom_navigation_item_colors"
+        app:itemTextColor="@drawable/bottom_navigation_item_colors"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:text="Войти"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp" />
-
-</LinearLayout>
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
+</androidx.constraintlayout.widget.ConstraintLayout>

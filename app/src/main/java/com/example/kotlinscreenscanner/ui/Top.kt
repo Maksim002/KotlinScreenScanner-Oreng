@@ -1,12 +1,12 @@
-package com.example.kotlinscreenscanner
+package com.example.kotlinscreenscanner.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kotlinscreenscanner.R
 
-class RegistrationActivity : AppCompatActivity(){
-
+class Top : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_registation)
+        setContentView(R.layout.top_main)
     }
 }

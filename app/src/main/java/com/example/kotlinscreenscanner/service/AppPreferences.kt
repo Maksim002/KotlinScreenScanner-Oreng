@@ -63,4 +63,8 @@ object AppPreferences {
                 it.putInt("licNumber", value)
             }
         }
+
+    fun String.toFullPhone(): String {
+        return "996" + this.replace(" ", "")
+    }
 }

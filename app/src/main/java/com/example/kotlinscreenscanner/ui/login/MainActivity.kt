@@ -1,4 +1,4 @@
-package com.example.kotlinscreenscanner
+package com.example.kotlinscreenscanner.ui.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,8 @@ import android.text.method.PasswordTransformationMethod
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.example.kotlinscreenscanner.R
+import com.example.kotlinscreenscanner.ui.Top
 import com.example.myapplication.LoginViewModel
 import com.timelysoft.tsjdomcom.service.Status
 import kotlinx.android.synthetic.main.activity_main.*
@@ -41,7 +43,7 @@ class MainActivity : AppCompatActivity() {
                 when (result.status) {
                     Status.SUCCESS -> {
                         if (data!!.result == null){
-                            Toast.makeText(this, data.error!!.message, Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, data.generalError.message, Toast.LENGTH_LONG).show()
                         }else{
                             startMainActivity()
                         }

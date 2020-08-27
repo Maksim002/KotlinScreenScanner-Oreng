@@ -1,6 +1,5 @@
 package com.example.myapplication.model
 
-import com.example.kotlinscreenscanner.service.model.ErrorModel
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -11,9 +10,5 @@ class AuthModel (
 
     @SerializedName("result")
     @Expose
-    var result: ResultModel?,
-
-    @SerializedName("error")
-    @Expose
-    var error: ErrorModel?
+    var result: ResultModel?
 )

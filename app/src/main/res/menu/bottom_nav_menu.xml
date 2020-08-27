@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_news"
+        android:icon="@drawable/ic_gray_point"
+        android:title="Шаг 1"
+        tools:ignore="MenuTitle" />
+
+    <item
+        android:id="@+id/navigation_message"
+        android:icon="@drawable/ic_gray_point"
+        android:title="Шаг 2"
+        tools:ignore="MenuTitle" />
+
+    <item
+        android:id="@+id/navigation_at_home"
+        android:icon="@drawable/ic_gray_point"
+        android:title="Шаг 3"
+        tools:ignore="MenuTitle" />
+
+    <item
+        android:id="@+id/navigation_contacts"
+        android:icon="@drawable/ic_gray_point"
+        android:title="Шаг 4"
+        tools:ignore="MenuTitle" />
+
+</menu>
