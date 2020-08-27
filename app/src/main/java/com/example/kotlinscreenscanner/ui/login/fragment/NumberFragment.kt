@@ -29,7 +29,6 @@ class NumberFragment(var listenr: ListenerViewPager) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initClick()
-
     }
 
     private fun initClick() {
