@@ -183,7 +183,6 @@ class QuestionnaireFragment(var listener: ListenerViewPager) : Fragment() {
                 }
             }
         })
-
         questionnaire_id_nationality.keyListener = null
         ColorStateList.valueOf(resources.getColor(R.color.orangeColor))
         questionnaire_id_nationality.onItemClickListener =
