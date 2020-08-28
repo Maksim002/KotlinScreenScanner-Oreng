@@ -41,7 +41,7 @@
                     android:background="@null"
                     android:hint="Фамилии"
                     android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textPersonName"
                     android:textSize="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.cardview.widget.CardView>
@@ -67,7 +67,7 @@
                     android:background="@null"
                     android:hint="Имя"
                     android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textPersonName"
                     android:textSize="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.cardview.widget.CardView>
@@ -93,7 +93,7 @@
                     android:background="@null"
                     android:hint="Отчества"
                     android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textPersonName"
                     android:textSize="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.cardview.widget.CardView>
@@ -131,124 +131,18 @@
             app:cardCornerRadius="8dp">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/questionnaire_id_sxs_out"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#E8E8E8"
                 android:padding="8dp">
 
                 <AutoCompleteTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@null"
-                    android:hint="Номер телефона"
-                    android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress"
-                    android:textSize="16dp" />
-            </com.google.android.material.textfield.TextInputLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:cardCornerRadius="8dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#E8E8E8"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.3"
-                    android:padding="8dp">
-
-                    <AutoCompleteTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:background="@null"
-                        android:hint="Пароль"
-                        android:imeOptions="actionNext"
-                        android:inputType="textPassword"
-                        android:textSize="16sp" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Показать"
-                    android:textColor="#FF9900" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:cardCornerRadius="8dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#E8E8E8"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/main_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.3"
-                    android:padding="8dp">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/main_text_password"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:background="@null"
-                        android:hint="Пароль"
-                        android:imeOptions="actionNext"
-                        android:inputType="textPassword"
-                        android:textSize="16sp" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <TextView
-                    android:id="@+id/main_show"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Показать"
-                    android:textColor="#FF9900" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:cardCornerRadius="8dp">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#E8E8E8"
-                android:hint="Выберите секретный вопрос"
-                android:padding="8dp">
-
-                <AutoCompleteTextView
-                    android:id="@+id/supplier_accounts_provider_out"
+                    android:id="@+id/questionnaire_id_sxs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
+                    android:hint="ID пола"
                     android:drawableEnd="@drawable/ic_tick"
                     android:textSize="15dp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -261,19 +155,147 @@
             app:cardCornerRadius="8dp">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/questionnaire_id_nationality_out"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#E8E8E8"
                 android:padding="8dp">
 
                 <AutoCompleteTextView
+                    android:id="@+id/questionnaire_id_nationality"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="ID гражданства"
+                    android:drawableEnd="@drawable/ic_tick"
+                    android:textSize="15dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="8dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/questionnaire_phone_number_out"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#E8E8E8"
+                android:padding="8dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/questionnaire_phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@null"
+                    android:hint="Номер телефона"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:textSize="16dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="8dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/questionnaire_phone_additional_out"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#E8E8E8"
+                android:padding="8dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/questionnaire_phone_additional"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@null"
+                    android:hint="Доп. номер телефона"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:textSize="16dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="8dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/questionnaire_id_secret_out"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#E8E8E8"
+                android:padding="8dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/questionnaire_id_secret"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:drawableEnd="@drawable/ic_tick"
+                    android:hint="ID секретного вопроса"
+                    android:textSize="15dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="8dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/questionnaire_secret_response_out"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#E8E8E8"
+                android:padding="8dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/questionnaire_secret_response"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:background="@null"
                     android:hint="Ответ на секретный вопрос"
                     android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress"
+                    android:inputType="text"
+                    android:textSize="16dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="8dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/questionnaire_sms_code_out"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#E8E8E8"
+                android:padding="8dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/questionnaire_sms_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@null"
+                    android:hint="Смс код полученный в предыдущем шаге"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
                     android:textSize="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.cardview.widget.CardView>
@@ -292,7 +314,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Войти"
+            android:text="Зарегистрироваться"
             android:textColor="#FFFFFF"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"

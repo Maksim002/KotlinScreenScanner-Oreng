@@ -14,4 +14,8 @@
         <item name="android:background">@drawable/circle_orange_backround</item>
     </style>
 
+    <style name="DatePicker" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/orangeColor</item>
+    </style>
+
 </resources>
