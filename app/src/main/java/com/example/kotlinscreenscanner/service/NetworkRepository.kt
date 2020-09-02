@@ -1,9 +1,7 @@
 package com.timelysoft.tsjdomcom.service
 
 import androidx.lifecycle.liveData
-import com.example.kotlinscreenscanner.service.model.QuestionnaireModel
 import kotlinx.coroutines.Dispatchers
-import java.util.*
 
 
 class NetworkRepository {

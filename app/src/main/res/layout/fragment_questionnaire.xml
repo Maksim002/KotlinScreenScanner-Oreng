@@ -138,7 +138,7 @@
                 android:padding="8dp">
 
                 <AutoCompleteTextView
-                    android:id="@+id/questionnaire_id_sxs"
+                    android:id="@+id/questionnaire_id_sxs0"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -162,7 +162,7 @@
                 android:padding="8dp">
 
                 <AutoCompleteTextView
-                    android:id="@+id/questionnaire_id_nationality"
+                    android:id="@+id/questionnaire_id_nationality0"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -238,7 +238,7 @@
                 android:padding="8dp">
 
                 <AutoCompleteTextView
-                    android:id="@+id/questionnaire_id_secret"
+                    android:id="@+id/questionnaire_id_secret0"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"

@@ -27,22 +27,28 @@ object AppPreferences {
             it.putString("token", value)
         }
 
+    var login: String?
+        get() = preferences.getString("login", "")
+        set(value) = preferences.edit {
+            it.putString("login", value)
+        }
+
+    var number: String?
+        get() = preferences.getString("number", "")
+        set(value) = preferences.edit {
+            it.putString("number", value)
+        }
+
     var isLogined: Boolean
         get() = preferences.getBoolean("isLogined", false)
         set(value) = preferences.edit {
             it.putBoolean("isLogined", value)
         }
 
-    var started: Boolean
-        get() = preferences.getBoolean("started", false)
-        set(value) = preferences.edit() {
-            it.putBoolean("started", value)
-        }
-
-    var email: String?
-        get() = preferences.getString("email", "")
+    var isRemember: Boolean
+        get() = preferences.getBoolean("isRemember", false)
         set(value) = preferences.edit {
-            it.putString("email", value)
+            it.putBoolean("isRemember", value)
         }
 
     var id: Int
@@ -58,6 +64,13 @@ object AppPreferences {
             it.putBoolean("isLogined", false)
             it.putString("email", "")
             it.putString("refresh_token", "")
+            it.apply()
+        }
+    }
+
+    fun clearLogin() {
+        preferences.edit {
+            it.putString("email", "")
             it.apply()
         }
     }

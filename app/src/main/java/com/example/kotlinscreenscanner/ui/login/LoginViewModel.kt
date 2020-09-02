@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.kotlinscreenscanner.service.model.*
 import com.example.myapplication.model.AuthModel
 import com.example.myapplication.model.ResultModel
+import com.timelysoft.tsjdomcom.service.AppPreferences
 import com.timelysoft.tsjdomcom.service.NetworkRepository
 import com.timelysoft.tsjdomcom.service.ResultStatus
 import java.util.*
@@ -16,6 +17,12 @@ class LoginViewModel : ViewModel() {
 
     fun auth(params: Map<String, String>): LiveData<ResultStatus<CommonResponse<ResultModel>>> {
         return repository.auth(params)
+    }
+
+    fun save(login: String, token: String) {
+        AppPreferences.login = login
+        AppPreferences.token = token
+        AppPreferences.isLogined = true
     }
 
     fun numberPhones(phone:  Map<String, String>): LiveData<ResultStatus<CommonResponse<ResultPhoneModel>>> {

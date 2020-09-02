@@ -9,18 +9,28 @@ import androidx.lifecycle.Observer
 import com.example.kotlinscreenscanner.R
 import com.example.kotlinscreenscanner.ui.Top
 import com.example.myapplication.LoginViewModel
+import com.timelysoft.tsjdomcom.service.AppPreferences
 import com.timelysoft.tsjdomcom.service.Status
+import com.timelysoft.tsjdomcom.utils.LoadingAlert
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
     private var viewModel = LoginViewModel()
+    private var tokenId = ""
+
+    companion object {
+        lateinit var alert: LoadingAlert
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        AppPreferences.init(application)
+        initCheck()
         iniClick()
+        alert = LoadingAlert(this)
     }
 
     private fun iniClick() {
@@ -29,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         main_registration.setOnClickListener {
-            val intent = Intent(this, RegistrationActivity::class.java)
+            val intent = Intent(this, NumberActivity::class.java)
             startActivity(intent)
         }
 
@@ -42,10 +52,15 @@ class MainActivity : AppCompatActivity() {
                 val data = result.data
                 when (result.status) {
                     Status.SUCCESS -> {
-                        if (data!!.result == null){
+                        if (data!!.result == null) {
                             Toast.makeText(this, data.error.message, Toast.LENGTH_LONG).show()
-                        }else{
+                        } else {
+                            tokenId = data.result.token
                             startMainActivity()
+                            if (main_remember_username.isChecked){
+                                AppPreferences.isRemember = main_remember_username.isChecked
+                                viewModel.save(main_text_login.text.toString(), data.result.token)
+                            }
                         }
                     }
                     Status.ERROR, Status.NETWORK -> {
@@ -55,6 +70,14 @@ class MainActivity : AppCompatActivity() {
             })
         }
     }
+
+    private fun initCheck() {
+        if (AppPreferences.isRemember){
+            main_remember_username.isChecked = AppPreferences.isRemember
+            main_text_login.setText(AppPreferences.login)
+        }
+    }
+
     private fun startMainActivity() {
         val intent = Intent(this, Top::class.java)
         startActivity(intent)
@@ -62,7 +85,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        main_text_login.setText(AppPreferences.login.toString())
         main_text_password.setTransformationMethod(PasswordTransformationMethod())
+    }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }

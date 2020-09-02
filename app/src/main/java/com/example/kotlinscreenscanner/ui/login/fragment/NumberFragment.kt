@@ -43,7 +43,7 @@ class NumberFragment(var listenr: ListenerViewPager) : Fragment() {
                         if (data!!.result == null){
                             Toast.makeText(context, data.error.message, Toast.LENGTH_LONG).show()
                         }else{
-                            listenr.onClockListener(1, data.result.id!!)
+                            listenr.onClockListener( data.result.id!!)
                         }
                     }
                     Status.ERROR, Status.NETWORK -> {
