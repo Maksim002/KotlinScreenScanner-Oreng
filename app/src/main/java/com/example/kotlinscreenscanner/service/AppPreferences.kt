@@ -5,11 +5,9 @@ import android.content.Context
 import android.content.SharedPreferences
 
 object AppPreferences {
-
     private const val NAME = "TsjDom"
     private const val MODE = Context.MODE_PRIVATE
     private lateinit var preferences: SharedPreferences
-
 
     fun init(context: Context) {
         preferences = context.getSharedPreferences(NAME, MODE)
@@ -33,6 +31,12 @@ object AppPreferences {
             it.putString("login", value)
         }
 
+    var password: String?
+        get() = preferences.getString("password", "")
+        set(value) = preferences.edit {
+            it.putString("password", value)
+        }
+
     var number: String?
         get() = preferences.getString("number", "")
         set(value) = preferences.edit {
@@ -45,6 +49,12 @@ object AppPreferences {
             it.putBoolean("isLogined", value)
         }
 
+    var isPinCode: Boolean
+        get() = preferences.getBoolean("isPinCode", false)
+        set(value) = preferences.edit {
+            it.putBoolean("isPinCode", value)
+        }
+
     var isRemember: Boolean
         get() = preferences.getBoolean("isRemember", false)
         set(value) = preferences.edit {
@@ -55,6 +65,12 @@ object AppPreferences {
         get() = preferences.getBoolean("isTouchId", false)
         set(value) = preferences.edit {
             it.putBoolean("isTouchId", value)
+        }
+
+    var isLoginCode: Boolean
+        get() = preferences.getBoolean("isLoginCode", false)
+        set(value) = preferences.edit {
+            it.putBoolean("isLoginCode", value)
         }
 
     var isValid: Boolean
