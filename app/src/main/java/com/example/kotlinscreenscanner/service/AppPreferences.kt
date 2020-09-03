@@ -51,6 +51,12 @@ object AppPreferences {
             it.putBoolean("isRemember", value)
         }
 
+    var isTouchId: Boolean
+        get() = preferences.getBoolean("isTouchId", false)
+        set(value) = preferences.edit {
+            it.putBoolean("isTouchId", value)
+        }
+
     var isValid: Boolean
         get() = preferences.getBoolean("isValid", false)
         set(value) = preferences.edit {

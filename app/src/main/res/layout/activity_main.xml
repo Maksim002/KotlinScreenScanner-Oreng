@@ -30,7 +30,7 @@
             android:background="#E8E8E8"
             android:hint="Логин"
             android:imeOptions="actionNext"
-            android:inputType="textEmailAddress"
+            android:inputType="number"
             android:padding="16dp"
             android:textSize="16dp" />
     </androidx.cardview.widget.CardView>
