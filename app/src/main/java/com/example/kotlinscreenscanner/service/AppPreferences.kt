@@ -51,6 +51,12 @@ object AppPreferences {
             it.putBoolean("isRemember", value)
         }
 
+    var isValid: Boolean
+        get() = preferences.getBoolean("isValid", false)
+        set(value) = preferences.edit {
+            it.putBoolean("isValid", value)
+        }
+
     var id: Int
         get() = preferences.getInt("id", id)
         set(value) = preferences.edit {

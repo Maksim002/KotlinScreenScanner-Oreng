@@ -23,24 +23,16 @@
         android:layout_marginTop="16dp"
         app:cardCornerRadius="8dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/main_login"
+        <AutoCompleteTextView
+            android:id="@+id/main_text_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#E8E8E8"
-            android:padding="8dp">
-
-            <AutoCompleteTextView
-                android:id="@+id/main_text_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@null"
-                android:hint="Логин"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
-                android:textSize="16dp" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:hint="Логин"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
+            android:padding="16dp"
+            android:textSize="16dp" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -55,24 +47,17 @@
             android:background="#E8E8E8"
             android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/main_password"
+            <AutoCompleteTextView
+                android:id="@+id/main_text_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.3"
-                android:padding="8dp">
-
-                <AutoCompleteTextView
-                    android:id="@+id/main_text_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@null"
-                    android:hint="Пароль"
-                    android:imeOptions="actionNext"
-                    android:inputType="textPassword"
-                    android:textSize="16sp" />
-            </com.google.android.material.textfield.TextInputLayout>
+                android:background="@null"
+                android:hint="Пароль"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                android:padding="16dp"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/main_show"

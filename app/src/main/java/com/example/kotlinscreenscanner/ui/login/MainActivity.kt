@@ -35,7 +35,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun iniClick() {
         main_show.setOnClickListener {
-            main_text_password.transformationMethod = null
+            if (AppPreferences.isValid){
+                AppPreferences.isValid = false
+                main_text_password.transformationMethod = PasswordTransformationMethod()
+            }else{
+                AppPreferences.isValid = true
+                main_text_password.transformationMethod = null
+            }
         }
 
         main_registration.setOnClickListener {
@@ -44,30 +50,35 @@ class MainActivity : AppCompatActivity() {
         }
 
         main_enter.setOnClickListener {
-            val map = HashMap<String, String>()
-            map.put("password", main_text_password.text.toString())
-            map.put("login", main_text_login.text.toString())
-            viewModel.auth(map).observe(this, Observer { result ->
-                val msg = result.msg
-                val data = result.data
-                when (result.status) {
-                    Status.SUCCESS -> {
-                        if (data!!.result == null) {
-                            Toast.makeText(this, data.error.message, Toast.LENGTH_LONG).show()
-                        } else {
-                            tokenId = data.result.token
-                            startMainActivity()
-                            if (main_remember_username.isChecked){
-                                AppPreferences.isRemember = main_remember_username.isChecked
-                                viewModel.save(main_text_login.text.toString(), data.result.token)
+            if (validate()) {
+                val map = HashMap<String, String>()
+                map.put("password", main_text_password.text.toString())
+                map.put("login", main_text_login.text.toString())
+                viewModel.auth(map).observe(this, Observer { result ->
+                    val msg = result.msg
+                    val data = result.data
+                    when (result.status) {
+                        Status.SUCCESS -> {
+                            if (data!!.result == null) {
+                                Toast.makeText(this, data.error.message, Toast.LENGTH_LONG).show()
+                            } else {
+                                tokenId = data.result.token
+                                startMainActivity()
+                                if (main_remember_username.isChecked) {
+                                    AppPreferences.isRemember = main_remember_username.isChecked
+                                    viewModel.save(main_text_login.text.toString(), data.result.token)
+                                }else{
+                                    AppPreferences.isRemember = false
+                                    AppPreferences.clearLogin()
+                                }
                             }
                         }
+                        Status.ERROR, Status.NETWORK -> {
+                            Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+                        }
                     }
-                    Status.ERROR, Status.NETWORK -> {
-                        Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
-                    }
-                }
-            })
+                })
+            }
         }
     }
 
@@ -78,6 +89,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun validate(): Boolean {
+        var valid = true
+        if (main_text_login.text.toString().isEmpty()) {
+            main_text_login.error = "Введите логин"
+            valid = false
+        }
+
+        if (main_text_password.text.toString().isEmpty()) {
+            main_text_password.error = "Введите пароль"
+            valid = false
+        }
+        return valid
+    }
+
     private fun startMainActivity() {
         val intent = Intent(this, Top::class.java)
         startActivity(intent)
@@ -85,8 +110,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        main_text_login.setText(AppPreferences.login.toString())
-        main_text_password.setTransformationMethod(PasswordTransformationMethod())
+        AppPreferences.isValid = false
     }
 
     override fun onSupportNavigateUp(): Boolean {
