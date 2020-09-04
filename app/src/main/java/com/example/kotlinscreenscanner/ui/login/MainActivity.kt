@@ -35,8 +35,8 @@ class MainActivity : AppCompatActivity(), PintCodeBottomListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         AppPreferences.init(application)
-        initCheck()
         iniClick()
+        initCheck()
         alert = LoadingAlert(this)
     }
 
@@ -71,9 +71,9 @@ class MainActivity : AppCompatActivity(), PintCodeBottomListener {
                                 Toast.makeText(this, data.error.message, Toast.LENGTH_LONG).show()
                             } else {
                                 tokenId = data.result.token
-                                if (AppPreferences.isLoginCode) {
+                                if (main_login_code.isChecked){
                                     initBottomSheet()
-                                } else {
+                                }else{
                                     startMainActivity()
                                 }
                                 if (main_remember_username.isChecked) {
@@ -119,21 +119,23 @@ class MainActivity : AppCompatActivity(), PintCodeBottomListener {
 
         main_login_code.setOnCheckedChangeListener { compoundButton, b ->
             if (b) {
+                main_touch_id.isChecked = false
                 main_remember_username.isChecked = true
                 main_remember_username.isClickable = false
-                main_touch_id.isChecked = false
             } else {
                 main_remember_username.isClickable = true
+                AppPreferences.isLoginCode = false
             }
         }
 
         main_touch_id.setOnCheckedChangeListener { compoundButton, b ->
             if (b) {
+                main_login_code.isChecked = false
                 main_remember_username.isChecked = true
                 main_remember_username.isClickable = false
-                main_login_code.isChecked = false
             } else {
                 main_remember_username.isClickable = true
+                AppPreferences.isTouchId = false
             }
         }
     }
@@ -184,20 +186,14 @@ class MainActivity : AppCompatActivity(), PintCodeBottomListener {
         when (biometricManager.canAuthenticate()) {
             BiometricManager.BIOMETRIC_SUCCESS ->
                 authUser(executor)
-            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->
-                Toast.makeText(
-                    this,
-                    getString(R.string.error_msg_no_biometric_hardware),
-                    Toast.LENGTH_LONG
-                ).show()
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->{
+                Toast.makeText(this, getString(R.string.error_msg_no_biometric_hardware), Toast.LENGTH_LONG).show()
+            }
             BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE ->
-                Toast.makeText(
-                    this,
-                    getString(R.string.error_msg_biometric_hw_unavailable),
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(this, getString(R.string.error_msg_biometric_hw_unavailable), Toast.LENGTH_LONG).show()
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
                 Toast.makeText(this, getString(R.string.error_msg_biometric_not_setup), Toast.LENGTH_LONG).show()
+                AppPreferences.isTouchId = false
                 main_touch_id.isChecked = false
             }
         }
@@ -224,7 +220,8 @@ class MainActivity : AppCompatActivity(), PintCodeBottomListener {
             BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
                 // 2
                 override fun onAuthenticationSucceeded(
-                    result: BiometricPrompt.AuthenticationResult) {
+                    result: BiometricPrompt.AuthenticationResult
+                ) {
                     super.onAuthenticationSucceeded(result)
                     val map = HashMap<String, String>()
                     map.put("password", AppPreferences.password.toString())
@@ -264,7 +261,11 @@ class MainActivity : AppCompatActivity(), PintCodeBottomListener {
                     errorCode: Int, errString: CharSequence
                 ) {
                     super.onAuthenticationError(errorCode, errString)
-                    Toast.makeText(applicationContext, getString(R.string.error_msg_auth_error, errString), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.error_msg_auth_error, errString),
+                        Toast.LENGTH_SHORT
+                    ).show()
                     main_touch_id.isChecked = false
                 }
 

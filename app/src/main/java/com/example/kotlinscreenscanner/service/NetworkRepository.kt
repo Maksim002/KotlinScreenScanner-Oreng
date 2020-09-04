@@ -145,4 +145,24 @@ class NetworkRepository {
             emit(ResultStatus.netwrok("Проблеммы с подключением интернета", null))
         }
     }
+
+    fun listAvailableCountry(map: Map<String, Int>) = liveData(Dispatchers.IO) {
+        try {
+            val response = RetrofitService.apiService().listAvailableCountry(map)
+            when {
+                response.isSuccessful -> {
+                    if (response.body() != null) {
+                        emit(ResultStatus.success(response.body()))
+                    } else {
+                        emit(ResultStatus.error("Запрос прошел успешно"))
+                    }
+                }
+                else -> {
+                    emit(ResultStatus.error("Не известная ошибка"))
+                }
+            }
+        } catch (e: Exception) {
+            emit(ResultStatus.netwrok("Проблеммы с подключением интернета", null))
+        }
+    }
 }

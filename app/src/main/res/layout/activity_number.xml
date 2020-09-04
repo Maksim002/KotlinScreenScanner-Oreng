@@ -46,18 +46,38 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="#E8E8E8"
+            app:cardCornerRadius="8dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/number_list_country"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#E8E8E8"
+                android:drawableEnd="@drawable/ic_expend"
+                android:hint="Список доступных стран"
+                android:inputType="number"
+                android:padding="14dp"
+                android:textSize="15dp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="#E8E8E8"
             android:layout_marginTop="8dp"
             app:cardCornerRadius="8dp">
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/number_phone"
                 android:layout_width="match_parent"
                 android:background="#E8E8E8"
                 android:hint="Номер телефона"
                 android:padding="16dp"
                 android:inputType="number"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:textSize="15dp"/>
         </androidx.cardview.widget.CardView>
 
     <Button

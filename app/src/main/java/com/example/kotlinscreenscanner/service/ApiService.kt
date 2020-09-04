@@ -42,5 +42,10 @@ interface ApiService {
     @FormUrlEncoded
     @POST("listSecretQuestion?token=oYyxhIFgJjAb")
     suspend fun listSecretQuestion(@FieldMap params: Map<String, Int>): Response<CommonResponse<ArrayList<ListSecretQuestionResultModel>>>
+
+    @Headers("Content-Type: application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST("listAvailableCountry?token=oYyxhIFgJjAb")
+    suspend fun listAvailableCountry(@FieldMap params: Map<String, Int>): Response<CommonResponse<ArrayList<CounterResultModel>>>
 }
 

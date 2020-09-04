@@ -48,4 +48,8 @@ class LoginViewModel : ViewModel() {
     fun listSecretQuestion(phone:  Map<String, Int>): LiveData<ResultStatus<CommonResponse<ArrayList<ListSecretQuestionResultModel>>>> {
         return repository.listSecretQuestion(phone)
     }
+
+    fun listAvailableCountry(phone:  Map<String, Int>): LiveData<ResultStatus<CommonResponse<ArrayList<CounterResultModel>>>> {
+        return repository.listAvailableCountry(phone)
+    }
 }

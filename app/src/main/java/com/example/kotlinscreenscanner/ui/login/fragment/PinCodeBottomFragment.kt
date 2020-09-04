@@ -1,12 +1,14 @@
 package com.example.kotlinscreenscanner.ui.login.fragment
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.kotlinscreenscanner.R
 import com.example.kotlinscreenscanner.adapter.PintCodeBottomListener
+import com.example.kotlinscreenscanner.ui.Top
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_pin_code_bottom.*
 
@@ -27,12 +29,18 @@ class PinCodeBottomFragment(private val listener: PintCodeBottomListener) : Bott
 
     private fun iniClick() {
         bottom_sheet_closed.setOnClickListener {
+            listener.pinCodeClockListener()
             this.dismiss()
         }
 
         bottom_sheet_without_code.setOnClickListener {
             listener.pinCodeClockListener()
             this.dismiss()
+        }
+
+        bottom_sheet_resume.setOnClickListener {
+            val intent = Intent(context, Top::class.java)
+            startActivity(intent)
         }
     }
 }
