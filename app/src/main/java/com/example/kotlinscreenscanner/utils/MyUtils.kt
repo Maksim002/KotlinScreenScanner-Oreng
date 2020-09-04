@@ -38,6 +38,17 @@ object MyUtils {
         ) + "T00:00:00+06:00"
     }
 
+    fun toFormatMask(date: String): String {
+        if (date <= date.substring(18)){
+            return date.substring(1,4) + date.substring(6,9) + date.substring(11, 13) + date.substring(14,16) + date.substring(17,19)
+        }else{
+            return date.substring(1,2) + date.substring(4, 7) + date.substring(9, 12) + date.substring(13,15) + date.substring(16,18)
+        }
+        return date
+    }
+
+
+
     fun convertDateServer( year: Int , month: Int, day: Int): String {
         var date = ""
 
@@ -71,7 +82,7 @@ object MyUtils {
         } else {
             day.toString()
         }
-        date += "."
+        date += "-"
 
 
         date += if (month < 10) {
@@ -80,7 +91,7 @@ object MyUtils {
         } else {
             month.toString()
         }
-        date += "." + year
+        date += "-" + year
         return date
     }
 

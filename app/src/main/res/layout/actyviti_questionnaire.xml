@@ -176,17 +176,19 @@
                 android:background="#E8E8E8"
                 app:cardCornerRadius="8dp">
 
-                <EditText
+                <com.santalu.maskedittext.MaskEditText
                     android:id="@+id/questionnaire_phone_additional"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#E8E8E8"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:hint="Доп. номер телефона"
-                    android:inputType="number"
                     android:padding="14dp"
-                    android:textSize="15dp" />
+                    android:layout_height="wrap_content"
+                    android:background="#E8E8E8"
+                    android:textSize="15sp"
+                    android:digits="0123456789"
+                    android:ellipsize="end"
+                    android:hint="Номер телефона"
+                    android:imeOptions="actionDone"
+                    android:inputType="phone"
+                    android:scrollHorizontally="true"/>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView

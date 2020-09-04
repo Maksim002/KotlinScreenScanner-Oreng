@@ -2,7 +2,7 @@ package com.example.kotlinscreenscanner.service.model
 
 import com.google.gson.annotations.SerializedName
 
-class CounterResultModel (
+class CounterResultModel(
     @SerializedName("id")
     var id: Int? = null,
 
@@ -16,8 +16,11 @@ class CounterResultModel (
     var phoneCode: String? = null,
 
     @SerializedName("phone_length")
-    var phoneLength: String? = null
-){
+    var phoneLength: String? = null,
+
+    @SerializedName("phone_mask")
+    var phoneMask: String? = null
+) {
     override fun toString(): String {
         return name.toString()
     }

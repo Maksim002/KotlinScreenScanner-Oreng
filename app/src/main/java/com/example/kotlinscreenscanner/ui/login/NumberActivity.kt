@@ -1,39 +1,31 @@
 package com.example.kotlinscreenscanner.ui.login
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Toast
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.kotlinscreenscanner.R
 import com.example.kotlinscreenscanner.service.model.CounterResultModel
 import com.example.kotlinscreenscanner.ui.login.fragment.NumberBottomSheetFragment
 import com.timelysoft.tsjdomcom.service.AppPreferences
-import com.timelysoft.tsjdomcom.service.AppPreferences.toFullPhone
 import com.timelysoft.tsjdomcom.service.NetworkRepository
 import com.timelysoft.tsjdomcom.service.Status
+import com.timelysoft.tsjdomcom.utils.MyUtils
 import kotlinx.android.synthetic.main.activity_number.*
-import kotlinx.android.synthetic.main.activity_number.number_next
-import kotlinx.android.synthetic.main.activity_number.number_phone
-import java.util.ArrayList
+import java.util.*
+import kotlin.collections.HashMap
 
 class NumberActivity : AppCompatActivity() {
     private var viewModel = NetworkRepository()
-    private var countryId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_number)
-        initClick()
+        number_phone.requestFocus()
         initToolBar()
+        initClick()
         getListCountry()
-        initMaskPhone()
-    }
-
-    private fun initMaskPhone() {
-
     }
 
     private fun initBottomSheet(id: Int) {
@@ -49,19 +41,24 @@ class NumberActivity : AppCompatActivity() {
         supportActionBar!!.title = "Регистрация"
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
     private fun initClick() {
         MainActivity.alert.show()
         number_next.setOnClickListener {
             val map = HashMap<String, String>()
-            map.put("phone", number_phone.text.toString().toFullPhone())
-            viewModel.numberPhone(map).observe(this, Observer { result->
+            map.put("phone", MyUtils.toFormatMask(number_phone.text.toString()))
+            viewModel.numberPhone(map).observe(this, Observer { result ->
                 val msg = result.msg
                 val data = result.data
                 when (result.status) {
                     Status.SUCCESS -> {
-                        if (data!!.result == null){
+                        if (data!!.result == null) {
                             Toast.makeText(this, data.error.message, Toast.LENGTH_LONG).show()
-                        }else{
+                        } else {
                             AppPreferences.number = number_phone.text.toString()
                             initBottomSheet(data.result.id!!)
                         }
@@ -77,41 +74,57 @@ class NumberActivity : AppCompatActivity() {
 
     private fun getListCountry() {
         var list: ArrayList<CounterResultModel> = arrayListOf()
-        val map = java.util.HashMap<String, Int>()
+        val map = HashMap<String, Int>()
         map.put("id", 0)
-        viewModel.listAvailableCountry(map).observe(this, androidx.lifecycle.Observer { result->
+        MainActivity.alert.show()
+        viewModel.listAvailableCountry(map).observe(this, androidx.lifecycle.Observer { result ->
             val msg = result.msg
             val data = result.data
             when (result.status) {
                 Status.SUCCESS -> {
-                    val adapterListCountry = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, data!!.result)
-                    list = data.result
+                    val adapterListCountry = ArrayAdapter(
+                        this,
+                        android.R.layout.simple_dropdown_item_1line,
+                        data!!.result
+                    )
                     number_list_country.setAdapter(adapterListCountry)
+                    list = data.result
                 }
                 Status.ERROR, Status.NETWORK -> {
                     Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
                 }
             }
+            MainActivity.alert.hide()
         })
         number_list_country.keyListener = null
-        AdapterView.OnItemClickListener { parent, _, position, _ ->
+        number_list_country.setOnItemClickListener { adapterView, view, position, l ->
             number_list_country.showDropDown()
-            parent.getItemAtPosition(position).toString()
-            countryId = list[position].id!!
+            AppPreferences.isFormatMask = list[position].phoneMask
+            number_phone.setText("")
+            number_phone.mask = ""
+            if (position == 0) {
+                number_phone.mask = list[position].phoneMask
+            } else if (position == 1) {
+                number_phone.mask = list[position].phoneMask
+            } else if (position == 2) {
+                number_phone.mask = list[position].phoneMask
+            }
+            if (number_list_country.text.toString() != ""){
+                number_phone_visibility.visibility = View.VISIBLE
+            }
+
             number_list_country.clearFocus()
         }
         number_list_country.setOnClickListener {
             number_list_country.showDropDown()
         }
-        number_list_country.onFocusChangeListener =
-            View.OnFocusChangeListener { view, hasFocus ->
-                try {
-                    if (hasFocus) {
-                        number_list_country.showDropDown()
-                    }
-                } catch (e: Exception) {
+        number_list_country.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
+            try {
+                if (hasFocus) {
+                    number_list_country.showDropDown()
                 }
+            } catch (e: Exception) {
             }
-        number_list_country.clearFocus()
+        }
     }
 }

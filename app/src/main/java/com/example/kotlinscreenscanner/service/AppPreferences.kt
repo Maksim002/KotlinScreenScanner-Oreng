@@ -43,6 +43,12 @@ object AppPreferences {
             it.putString("number", value)
         }
 
+    var isFormatMask: String?
+        get() = preferences.getString("isFormatMask", "")
+        set(value) = preferences.edit {
+            it.putString("isFormatMask", value)
+        }
+
     var isLogined: Boolean
         get() = preferences.getBoolean("isLogined", false)
         set(value) = preferences.edit {

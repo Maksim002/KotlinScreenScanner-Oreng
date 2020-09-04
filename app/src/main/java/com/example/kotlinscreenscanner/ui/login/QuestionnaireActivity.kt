@@ -1,36 +1,25 @@
 package com.example.kotlinscreenscanner.ui.login
 
 import android.app.DatePickerDialog
-import android.content.res.ColorStateList
-import android.content.res.ColorStateList.*
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import com.example.kotlinscreenscanner.R
 import com.example.kotlinscreenscanner.service.model.ListGenderResultModel
 import com.example.kotlinscreenscanner.service.model.ListNationalityResultModel
 import com.example.kotlinscreenscanner.service.model.ListSecretQuestionResultModel
 import com.example.myapplication.LoginViewModel
 import com.timelysoft.tsjdomcom.service.AppPreferences
-import com.timelysoft.tsjdomcom.service.AppPreferences.toFullPhone
 import com.timelysoft.tsjdomcom.service.Status
 import com.timelysoft.tsjdomcom.utils.MyUtils
 import kotlinx.android.synthetic.main.actyviti_questionnaire.*
-import kotlinx.android.synthetic.main.actyviti_questionnaire.main_enter
-import kotlinx.android.synthetic.main.actyviti_questionnaire.questionnaire_phone_additional
-import kotlinx.android.synthetic.main.actyviti_questionnaire.questionnaire_phone_number
-import kotlinx.android.synthetic.main.actyviti_questionnaire.questionnaire_secret_response
-import kotlinx.android.synthetic.main.actyviti_questionnaire.questionnaire_sms_code
-import kotlinx.android.synthetic.main.actyviti_questionnaire.questionnaire_text_name
-import kotlinx.android.synthetic.main.actyviti_questionnaire.questionnaire_text_patronymics
-import kotlinx.android.synthetic.main.actyviti_questionnaire.questionnaire_text_surnames
 import java.util.*
 
 class QuestionnaireActivity : AppCompatActivity() {
@@ -44,11 +33,11 @@ class QuestionnaireActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.actyviti_questionnaire)
         initToolBar()
-        iniClock()
         iniData()
         getIdSxs()
         getListNationality()
         getListSecretQuestion()
+        iniClock()
     }
 
     private fun iniClock() {
@@ -67,12 +56,11 @@ class QuestionnaireActivity : AppCompatActivity() {
             map["last_name"] = questionnaire_text_surnames.text.toString()
             map["first_name"] = questionnaire_text_name.text.toString()
             map["second_name"] = questionnaire_text_patronymics.text.toString()
-            map["u_date"] = MyUtils.toServerDate(data)
+            map["u_date"] = data
             map["gender"] = idSex.toString()
             map["nationality"] = listNationalityId.toString()
-            map["first_phone"] = questionnaire_phone_number.text.toString().toFullPhone()
-            map["second_phone"] = questionnaire_phone_additional.text.toString().toFullPhone()
-            map["second_phone"] = questionnaire_phone_additional.text.toString().toFullPhone()
+            map["first_phone"] = MyUtils.toFormatMask(questionnaire_phone_number.text.toString())
+            map["second_phone"] = MyUtils.toFormatMask(questionnaire_phone_additional.text.toString())
             map["question"] = listSecretQuestionId.toString()
             map["response"] = questionnaire_secret_response.text.toString()
             map["sms_code"] = questionnaire_sms_code.text.toString()
@@ -104,11 +92,17 @@ class QuestionnaireActivity : AppCompatActivity() {
         supportActionBar!!.title = "Регистрация"
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
     override fun onStart() {
         super.onStart()
         main_enter.isClickable = false
         main_enter.setBackgroundColor(resources.getColor(R.color.blueColor))
         questionnaire_phone_number.setText(AppPreferences.number.toString())
+        questionnaire_phone_additional.mask = AppPreferences.isFormatMask
     }
 
     private fun iniData() {
@@ -124,7 +118,7 @@ class QuestionnaireActivity : AppCompatActivity() {
                                 year
                             )
                         )
-                        data = (MyUtils.convertDateServer(year, month + 1, dayOfMonth))
+                        data = (MyUtils.convertDate(year, month + 1, dayOfMonth))
                     },
                     calendar.get(Calendar.YEAR),
                     calendar.get(Calendar.MONTH),
@@ -148,8 +142,8 @@ class QuestionnaireActivity : AppCompatActivity() {
             when (result.status) {
                 Status.SUCCESS -> {
                     val adapterIdSxs = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, data!!.result)
-                    list = data.result
                     questionnaire_id_sxs.setAdapter(adapterIdSxs)
+                    list = data.result
                 }
                 Status.ERROR, Status.NETWORK -> {
                     Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
@@ -157,9 +151,8 @@ class QuestionnaireActivity : AppCompatActivity() {
             }
         })
         questionnaire_id_sxs.keyListener = null
-            AdapterView.OnItemClickListener { parent, _, position, _ ->
+        questionnaire_id_sxs.setOnItemClickListener { adapterView, view, position, l ->
                 questionnaire_id_sxs.showDropDown()
-                parent.getItemAtPosition(position).toString()
                 idSex = list[position].id!!
                 questionnaire_id_sxs.clearFocus()
             }
@@ -188,8 +181,8 @@ class QuestionnaireActivity : AppCompatActivity() {
             when (result.status) {
                 Status.SUCCESS -> {
                     val adapterListNationality = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, data!!.result)
-                    list = data.result
                     questionnaire_id_nationality.setAdapter(adapterListNationality)
+                    list = data.result
                 }
                 Status.ERROR, Status.NETWORK -> {
                     Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
@@ -197,9 +190,8 @@ class QuestionnaireActivity : AppCompatActivity() {
             }
         })
         questionnaire_id_nationality.keyListener = null
-            AdapterView.OnItemClickListener { parent, _, position, _ ->
+        questionnaire_id_nationality.setOnItemClickListener { adapterView, view, position, l ->
                 questionnaire_id_nationality.showDropDown()
-                parent.getItemAtPosition(position).toString()
                 listNationalityId = list[position].id!!
                 questionnaire_id_nationality.clearFocus()
             }
@@ -229,8 +221,8 @@ class QuestionnaireActivity : AppCompatActivity() {
             when (result.status) {
                 Status.SUCCESS -> {
                     val adapterListSecretQuestion = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, data!!.result)
-                    list = data.result
                     questionnaire_id_secret.setAdapter(adapterListSecretQuestion)
+                    list = data.result
                 }
                 Status.ERROR, Status.NETWORK -> {
                     Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
@@ -239,9 +231,8 @@ class QuestionnaireActivity : AppCompatActivity() {
         })
 
         questionnaire_id_secret.keyListener = null
-            AdapterView.OnItemClickListener { parent, _, position, _ ->
+        questionnaire_id_secret.setOnItemClickListener { adapterView, view, position, b ->
                 questionnaire_id_secret.showDropDown()
-                parent.getItemAtPosition(position).toString()
                 listSecretQuestionId = list[position].id!!
                 questionnaire_id_secret.clearFocus()
             }

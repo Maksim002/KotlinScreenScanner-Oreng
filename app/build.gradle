@@ -88,5 +88,5 @@ dependencies {
     implementation 'androidx.biometric:biometric:1.0.1'
 
     //mask phone
-    implementation 'com.redmadrobot:input-mask-android:6.0.0'
+    implementation 'com.github.santalu:mask-edittext:1.1.1'
 }
