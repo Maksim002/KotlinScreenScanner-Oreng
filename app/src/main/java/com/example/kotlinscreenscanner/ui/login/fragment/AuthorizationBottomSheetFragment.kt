@@ -5,29 +5,28 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.example.kotlinscreenscanner.R
-import com.example.kotlinscreenscanner.adapter.ListenerViewPager
 import com.example.kotlinscreenscanner.ui.login.MainActivity
-import kotlinx.android.synthetic.main.fragment_confirmation.*
+import com.example.myapplication.LoginViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.android.synthetic.main.fragment_authorization_bottom_sheet.*
 
-class ConfirmationFragment(var listener: ListenerViewPager) : Fragment(){
-
+class AuthorizationBottomSheetFragment() : BottomSheetDialogFragment() {
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_confirmation, container, false)
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_authorization_bottom_sheet, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        iniClick()
+        initClick()
     }
 
-    private fun iniClick() {
-        confirm_without_code.setOnClickListener {
+    private fun initClick() {
+        authorization.setOnClickListener {
             val intent = Intent(context, MainActivity::class.java)
             startActivity(intent)
         }

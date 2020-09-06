@@ -12,15 +12,12 @@ import com.example.kotlinscreenscanner.ui.login.QuestionnaireActivity
 import com.example.myapplication.LoginViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.timelysoft.tsjdomcom.service.Status
+import kotlinx.android.synthetic.main.activity_number.*
 import kotlinx.android.synthetic.main.fragment_number_bottom_sheet.*
-import kotlinx.android.synthetic.main.fragment_sms_confirmation.*
+import kotlinx.android.synthetic.main.fragment_number_bottom_sheet.number_next
 
 class NumberBottomSheetFragment(var idPhone: Int) : BottomSheetDialogFragment() {
     private var viewModel = LoginViewModel()
-
-    companion object {
-        lateinit var sheet: NumberBottomSheetFragment
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,26 +41,40 @@ class NumberBottomSheetFragment(var idPhone: Int) : BottomSheetDialogFragment() 
         }
 
         number_next.setOnClickListener {
-            val map = HashMap<String, Int>()
-            map.put("id", idPhone)
-            map.put("code", number_text_sms.text.toString().toInt())
-            viewModel.smsConfirmation(map).observe(viewLifecycleOwner, Observer { result->
-                val msg = result.msg
-                val data = result.data
-                when (result.status) {
-                    Status.SUCCESS -> {
-                        if (data!!.result == null){
-                            Toast.makeText(context, data.error.message, Toast.LENGTH_LONG).show()
-                        }else{
-                            val intent = Intent(context, QuestionnaireActivity::class.java)
-                            startActivity(intent)
+            if (validate()) {
+                val map = HashMap<String, Int>()
+                map.put("id", idPhone)
+                map.put("code", number_text_sms.text.toString().toInt())
+                viewModel.smsConfirmation(map).observe(viewLifecycleOwner, Observer { result ->
+                    val msg = result.msg
+                    val data = result.data
+                    when (result.status) {
+                        Status.SUCCESS -> {
+                            if (data!!.result == null) {
+                                Toast.makeText(context, data.error.message, Toast.LENGTH_LONG)
+                                    .show()
+                            } else {
+                                val intent = Intent(context, QuestionnaireActivity::class.java)
+                                startActivity(intent)
+                            }
+                        }
+                        Status.ERROR, Status.NETWORK -> {
+                            Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
                         }
                     }
-                    Status.ERROR, Status.NETWORK -> {
-                        Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
-                    }
-                }
-            })
+                })
+            }
         }
+    }
+
+    private fun validate(): Boolean {
+        var valid = true
+        if (number_text_sms.text!!.toString().length != 4) {
+            number_text_sms.error = "Введите валидный sms"
+            valid = false
+        } else {
+            number_text_sms.error = null
+        }
+        return valid
     }
 }

@@ -25,6 +25,18 @@ object AppPreferences {
             it.putString("token", value)
         }
 
+    var savePin: String?
+        get() = preferences.getString("savePin", "")
+        set(value) = preferences.edit {
+            it.putString("savePin", value)
+        }
+
+    var numberCharacters: Int?
+        get() = preferences.getInt("numberCharacters", 0)
+        set(value) = preferences.edit {
+            it.putInt("numberCharacters", value!!)
+        }
+
     var login: String?
         get() = preferences.getString("login", "")
         set(value) = preferences.edit {

@@ -6,17 +6,20 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
 import com.example.kotlinscreenscanner.R
 import com.example.kotlinscreenscanner.service.model.ListGenderResultModel
 import com.example.kotlinscreenscanner.service.model.ListNationalityResultModel
 import com.example.kotlinscreenscanner.service.model.ListSecretQuestionResultModel
+import com.example.kotlinscreenscanner.ui.login.fragment.AuthorizationBottomSheetFragment
 import com.example.myapplication.LoginViewModel
 import com.timelysoft.tsjdomcom.service.AppPreferences
+import com.timelysoft.tsjdomcom.service.AppPreferences.toFullPhone
 import com.timelysoft.tsjdomcom.service.Status
 import com.timelysoft.tsjdomcom.utils.MyUtils
 import kotlinx.android.synthetic.main.actyviti_questionnaire.*
@@ -36,53 +39,64 @@ class QuestionnaireActivity : AppCompatActivity() {
         iniData()
         getIdSxs()
         getListNationality()
-        getListSecretQuestion()
+        getAutoOperation()
         iniClock()
+        initViews()
     }
 
     private fun iniClock() {
         questionnaire_agreement.setOnCheckedChangeListener { compoundButton, b ->
             if (b){
-                main_enter.isClickable = true
-                main_enter.setBackgroundColor(resources.getColor(R.color.orangeColor))
+                questionnaire_enter.isClickable = true
+                questionnaire_enter.setBackgroundColor(resources.getColor(R.color.orangeColor))
             }else{
-                main_enter.isClickable = false
-                main_enter.setBackgroundColor(resources.getColor(R.color.blueColor))
+                questionnaire_enter.isClickable = false
+                questionnaire_enter.setBackgroundColor(resources.getColor(R.color.blueColor))
             }
         }
 
-        main_enter.setOnClickListener {
-            val map = mutableMapOf<String, String>()
-            map["last_name"] = questionnaire_text_surnames.text.toString()
-            map["first_name"] = questionnaire_text_name.text.toString()
-            map["second_name"] = questionnaire_text_patronymics.text.toString()
-            map["u_date"] = data
-            map["gender"] = idSex.toString()
-            map["nationality"] = listNationalityId.toString()
-            map["first_phone"] = MyUtils.toFormatMask(questionnaire_phone_number.text.toString())
-            map["second_phone"] = MyUtils.toFormatMask(questionnaire_phone_additional.text.toString())
-            map["question"] = listSecretQuestionId.toString()
-            map["response"] = questionnaire_secret_response.text.toString()
-            map["sms_code"] = questionnaire_sms_code.text.toString()
+        questionnaire_enter.setOnClickListener {
+            if (validate()) {
+                val map = mutableMapOf<String, String>()
+                map["last_name"] = questionnaire_text_surnames.text.toString()
+                map["first_name"] = questionnaire_text_name.text.toString()
+                map["second_name"] = questionnaire_text_patronymics.text.toString()
+                map["u_date"] = data
+                map["gender"] = idSex.toString()
+                map["nationality"] = listNationalityId.toString()
+                map["first_phone"] =
+                    MyUtils.toFormatMask(questionnaire_phone_number.text.toString())
+                map["second_phone"] =
+                    MyUtils.toFormatMask(questionnaire_phone_additional.text.toString())
+                map["question"] = listSecretQuestionId.toString()
+                map["response"] = questionnaire_secret_response.text.toString()
+                map["sms_code"] = questionnaire_sms_code.text.toString()
 
-            viewModel.questionnaire(map)
-                .observe(this, Observer { result ->
-                    val msg = result.msg
-                    val data = result.data
-                    when (result.status) {
-                        Status.SUCCESS -> {
-                            if (data!!.result == null) {
-                                Toast.makeText(this, data.error.message, Toast.LENGTH_LONG).show()
-                            } else {
-
+                viewModel.questionnaire(map)
+                    .observe(this, Observer { result ->
+                        val msg = result.msg
+                        val data = result.data
+                        when (result.status) {
+                            Status.SUCCESS -> {
+                                if (data!!.result == null) {
+                                    Toast.makeText(this, data.error.message, Toast.LENGTH_LONG).show()
+                                } else {
+                                    initBottomSheet()
+                                }
+                            }
+                            Status.ERROR, Status.NETWORK -> {
+                                Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
                             }
                         }
-                        Status.ERROR, Status.NETWORK -> {
-                            Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
-                        }
-                    }
-                })
+                    })
+            }
         }
+    }
+
+    private fun initBottomSheet() {
+        val bottomSheetDialogFragment = AuthorizationBottomSheetFragment()
+        bottomSheetDialogFragment.isCancelable = false;
+        bottomSheetDialogFragment.show(supportFragmentManager, bottomSheetDialogFragment.tag)
     }
 
     private fun initToolBar() {
@@ -99,8 +113,8 @@ class QuestionnaireActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        main_enter.isClickable = false
-        main_enter.setBackgroundColor(resources.getColor(R.color.blueColor))
+        questionnaire_enter.isClickable = false
+        questionnaire_enter.setBackgroundColor(resources.getColor(R.color.blueColor))
         questionnaire_phone_number.setText(AppPreferences.number.toString())
         questionnaire_phone_additional.mask = AppPreferences.isFormatMask
     }
@@ -211,7 +225,7 @@ class QuestionnaireActivity : AppCompatActivity() {
         questionnaire_id_nationality.clearFocus()
     }
 
-    private fun getListSecretQuestion() {
+    private fun getAutoOperation() {
         var list:  ArrayList<ListSecretQuestionResultModel> = arrayListOf()
         val map = HashMap<String, Int>()
         map.put("id", 0)
@@ -230,25 +244,116 @@ class QuestionnaireActivity : AppCompatActivity() {
             }
         })
 
-        questionnaire_id_secret.keyListener = null
-        questionnaire_id_secret.setOnItemClickListener { adapterView, view, position, b ->
+        questionnaire_id_secret.setKeyListener(null)
+
+        questionnaire_id_secret.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, _, position, _ ->
                 questionnaire_id_secret.showDropDown()
+                parent.getItemAtPosition(position).toString()
                 listSecretQuestionId = list[position].id!!
                 questionnaire_id_secret.clearFocus()
             }
         questionnaire_id_secret.setOnClickListener {
             questionnaire_id_secret.showDropDown()
         }
-        questionnaire_id_secret.onFocusChangeListener =
-            View.OnFocusChangeListener { view, hasFocus ->
-                try {
-                    if (hasFocus) {
-                        questionnaire_id_secret.showDropDown()
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+        questionnaire_id_secret.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
+            try {
+                questionnaire_id_secret.showDropDown()
+            } catch (e: Exception) {
+
             }
+        }
         questionnaire_id_secret.clearFocus()
+    }
+
+    private fun validate(): Boolean {
+        var valid = true
+        if (questionnaire_text_surnames.text.toString().isEmpty()) {
+            questionnaire_text_surnames.error = "Введите фамилию"
+            valid = false
+        }
+
+        if (questionnaire_text_name.text.toString().isEmpty()) {
+            questionnaire_text_name.error = "Введите имя"
+            valid = false
+        }
+
+        if (questionnaire_text_patronymics.text.toString().isEmpty()) {
+            questionnaire_text_patronymics.error = "Введите отчество"
+            valid = false
+        }
+
+        if (questionnaire_date_birth.text!!.toString().isEmpty()) {
+            questionnaire_date_birth.error = "Выберите дату"
+            valid = false
+        }else{
+            questionnaire_date_birth.error = null
+        }
+
+        if (questionnaire_id_sxs.text!!.toString().isEmpty()) {
+            questionnaire_id_sxs.error = "Выберите пол"
+            valid = false
+        }else{
+            questionnaire_id_sxs.error = null
+        }
+
+        if (questionnaire_id_nationality.text.toString().isEmpty()) {
+            questionnaire_id_nationality.error = "Выберите гражданство"
+            valid = false
+        }else{
+            questionnaire_id_nationality.error = null
+        }
+
+        if (AppPreferences.numberCharacters != 11){
+            if (questionnaire_phone_additional.text!!.toString().length != 19) {
+                questionnaire_phone_additional.error = "Ввидите валидный номер"
+                valid = false
+            }else{
+                questionnaire_phone_additional.error = null
+            }
+        }else{
+            if (questionnaire_phone_additional.text!!.toString().toFullPhone().length != 20) {
+                questionnaire_phone_additional.error = "Ввидите валидный номер"
+                valid = false
+            }else{
+                questionnaire_phone_additional.error = null
+            }
+        }
+
+        if (questionnaire_id_secret.text.toString().isEmpty()) {
+            questionnaire_id_secret.error = "Выберите секретный вопрос"
+            valid = false
+        }else{
+            questionnaire_id_secret.error = null
+        }
+
+        if (questionnaire_secret_response.text.toString().isEmpty()) {
+            questionnaire_secret_response.error = "Поле не должно быть пустым"
+            valid = false
+        }
+
+        if (questionnaire_sms_code.text.toString().isEmpty()) {
+            questionnaire_sms_code.error = "Видите смс код"
+            valid = false
+        }
+        return valid
+    }
+
+    private fun initViews() {
+        questionnaire_date_birth.addTextChangedListener {
+            questionnaire_date_birth.error = null
+        }
+
+        questionnaire_id_sxs.addTextChangedListener {
+            questionnaire_id_sxs.error = null
+        }
+
+        questionnaire_id_nationality.addTextChangedListener {
+            questionnaire_id_nationality.error = null
+        }
+
+        questionnaire_id_secret.addTextChangedListener {
+            questionnaire_id_secret.error = null
+        }
     }
 }
