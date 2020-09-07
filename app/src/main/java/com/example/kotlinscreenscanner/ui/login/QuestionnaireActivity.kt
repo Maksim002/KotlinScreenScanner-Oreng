@@ -37,8 +37,8 @@ class QuestionnaireActivity : AppCompatActivity() {
         setContentView(R.layout.actyviti_questionnaire)
         initToolBar()
         iniData()
-        getIdSxs()
         getListNationality()
+        getIdSxs()
         getAutoOperation()
         iniClock()
         initViews()
@@ -70,7 +70,7 @@ class QuestionnaireActivity : AppCompatActivity() {
                     MyUtils.toFormatMask(questionnaire_phone_additional.text.toString())
                 map["question"] = listSecretQuestionId.toString()
                 map["response"] = questionnaire_secret_response.text.toString()
-                map["sms_code"] = questionnaire_sms_code.text.toString()
+                map["sms_code"] = AppPreferences.receivedSms.toString()
 
                 viewModel.questionnaire(map)
                     .observe(this, Observer { result ->
@@ -173,8 +173,7 @@ class QuestionnaireActivity : AppCompatActivity() {
         questionnaire_id_sxs.setOnClickListener {
             questionnaire_id_sxs.showDropDown()
         }
-        questionnaire_id_sxs.onFocusChangeListener =
-            View.OnFocusChangeListener { view, hasFocus ->
+        questionnaire_id_sxs.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
                 try {
                     if (hasFocus) {
                         questionnaire_id_sxs.showDropDown()
@@ -184,6 +183,7 @@ class QuestionnaireActivity : AppCompatActivity() {
             }
         questionnaire_id_sxs.clearFocus()
     }
+
 
     private fun getListNationality() {
         var list:  ArrayList<ListNationalityResultModel> = arrayListOf()
@@ -252,6 +252,7 @@ class QuestionnaireActivity : AppCompatActivity() {
                 parent.getItemAtPosition(position).toString()
                 listSecretQuestionId = list[position].id!!
                 questionnaire_id_secret.clearFocus()
+                questionnaire_owner.requestFocus()
             }
         questionnaire_id_secret.setOnClickListener {
             questionnaire_id_secret.showDropDown()
@@ -264,6 +265,7 @@ class QuestionnaireActivity : AppCompatActivity() {
             }
         }
         questionnaire_id_secret.clearFocus()
+
     }
 
     private fun validate(): Boolean {
@@ -329,11 +331,6 @@ class QuestionnaireActivity : AppCompatActivity() {
 
         if (questionnaire_secret_response.text.toString().isEmpty()) {
             questionnaire_secret_response.error = "Поле не должно быть пустым"
-            valid = false
-        }
-
-        if (questionnaire_sms_code.text.toString().isEmpty()) {
-            questionnaire_sms_code.error = "Видите смс код"
             valid = false
         }
         return valid

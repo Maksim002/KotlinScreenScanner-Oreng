@@ -50,7 +50,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#E8E8E8"
-                    android:hint="Фамилии"
+                    android:hint="Фамилия"
                     android:inputType="textPersonName"
                     android:padding="14dp"
                     android:textSize="15dp" />
@@ -86,7 +86,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#E8E8E8"
-                    android:hint="Отчества"
+                    android:hint="Отчество"
                     android:inputType="textPersonName"
                     android:padding="14dp"
                     android:textSize="15dp" />
@@ -124,7 +124,7 @@
                     android:layout_height="match_parent"
                     android:background="#E8E8E8"
                     android:drawableEnd="@drawable/ic_expend"
-                    android:hint="ID пола"
+                    android:hint="ID поле"
                     android:inputType="number"
                     android:padding="14dp"
                     android:textSize="15dp" />
@@ -228,24 +228,6 @@
                     android:textSize="15dp" />
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="#E8E8E8"
-                app:cardCornerRadius="8dp">
-
-                <EditText
-                    android:id="@+id/questionnaire_sms_code"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#E8E8E8"
-                    android:hint="Смс код полученный в предыдущем шаге"
-                    android:inputType="number"
-                    android:padding="14dp"
-                    android:textSize="15dp" />
-            </androidx.cardview.widget.CardView>
-
             <CheckBox
                 android:id="@+id/questionnaire_agreement"
                 android:layout_width="match_parent"
@@ -273,9 +255,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="21dp"
                 android:gravity="center"
-                android:text="Уже зарегестрированны?"
+                android:text="Уже зарегистрированы?"
                 android:textColor="#FF9900"
                 android:textSize="18sp" />
+
+            <include
+                android:id="@+id/questionnaire_owner"
+                layout="@layout/item_focus" />
 
         </LinearLayout>
     </LinearLayout>

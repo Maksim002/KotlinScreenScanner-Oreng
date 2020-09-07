@@ -15,7 +15,8 @@ import com.timelysoft.tsjdomcom.service.AppPreferences
 import kotlinx.android.synthetic.main.fragment_number_bottom_sheet.*
 import kotlinx.android.synthetic.main.fragment_pin_code_bottom.*
 
-class PinCodeBottomFragment(private val listener: PintCodeBottomListener) : BottomSheetDialogFragment() {
+class PinCodeBottomFragment(private val listener: PintCodeBottomListener) :
+    BottomSheetDialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,11 +35,6 @@ class PinCodeBottomFragment(private val listener: PintCodeBottomListener) : Bott
         bottom_sheet_closed.setOnClickListener {
             listener.pinCodeClockListener()
             this.dismiss()
-        }
-
-        bottom_sheet_without_code.setOnClickListener {
-            listener.pinCodeClockListener()
-            this.dismiss()
             AppPreferences.savePin = null
         }
 
@@ -48,10 +44,7 @@ class PinCodeBottomFragment(private val listener: PintCodeBottomListener) : Bott
                 val secondNumber = bottom_sheet_repeat_code.text.toString()
                 if (AppPreferences.savePin!!.isNotEmpty()) {
                     if (numberOne == AppPreferences.savePin && secondNumber == AppPreferences.savePin) {
-                        val intent = Intent(context, Top::class.java)
-                        startActivity(intent)
-                    } else {
-                        Toast.makeText(context, "Что то не так", Toast.LENGTH_LONG).show()
+                        initTransition()
                     }
                 } else {
                     initRequest(numberOne, secondNumber)
@@ -61,34 +54,38 @@ class PinCodeBottomFragment(private val listener: PintCodeBottomListener) : Bott
     }
 
     private fun initRequest(numberOne: String, secondNumber: String) {
-        if (numberOne.isNotEmpty() && secondNumber.isNotEmpty()){
+        if (numberOne.isNotEmpty() && secondNumber.isNotEmpty()) {
             AppPreferences.savePin = numberOne
-            val intent = Intent(context, Top::class.java)
-            startActivity(intent)
-        }else{
-            Toast.makeText(context, "Смс код не совпадает", Toast.LENGTH_LONG).show()
+            initTransition()
         }
     }
-    // Длина должна быть ровна 4м
-    //Длина должна быт оденаковая
-    //Пороль должен совподать
-    //Пороль не должен быть пустым
+
+    private fun initTransition() {
+        val intent = Intent(context, Top::class.java)
+        startActivity(intent)
+    }
 
     private fun validate(): Boolean {
         var valid = true
-        if (bottom_sheet_pin_code.text!!.toString().length != 4) {
-            bottom_sheet_pin_code.error = "Поле должно содержать 4 символа"
+        if (bottom_sheet_pin_code.text.toString() != bottom_sheet_repeat_code.text.toString()) {
+            bottom_sheet_repeat_code.error = "Поля должны совпадать"
+            bottom_sheet_pin_code.error = "Поля должны совпадать"
             valid = false
+        } else if (bottom_sheet_repeat_code.text!!.toString().length != 4 && bottom_sheet_repeat_code.text!!.toString().length != 4) {
+            bottom_sheet_pin_code.error = "Поле должно содержать 4 символа"
+            bottom_sheet_repeat_code.error = "Поле должно содержать 4 символа"
+            valid = false
+        } else if (AppPreferences.savePin!!.isNotEmpty()) {
+            if (bottom_sheet_pin_code.text.toString() != AppPreferences.savePin && bottom_sheet_repeat_code.text.toString() != AppPreferences.savePin) {
+                bottom_sheet_pin_code.error = "Пин код неверный"
+                bottom_sheet_repeat_code.error = "Пин код неверный"
+                valid = false
+            }
         } else {
+            bottom_sheet_repeat_code.error = null
             bottom_sheet_pin_code.error = null
         }
 
-        if (bottom_sheet_repeat_code.text!!.toString().length != 4) {
-            bottom_sheet_repeat_code.error = "Поле должно содержать 4 символа"
-            valid = false
-        } else {
-            bottom_sheet_repeat_code.error = null
-        }
         return valid
     }
 }

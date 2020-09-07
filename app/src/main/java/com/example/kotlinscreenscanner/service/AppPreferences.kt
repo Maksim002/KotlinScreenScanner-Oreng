@@ -61,6 +61,12 @@ object AppPreferences {
             it.putString("isFormatMask", value)
         }
 
+    var receivedSms: String?
+        get() = preferences.getString("receivedSms", "")
+        set(value) = preferences.edit {
+            it.putString("receivedSms", value)
+        }
+
     var isLogined: Boolean
         get() = preferences.getBoolean("isLogined", false)
         set(value) = preferences.edit {

@@ -11,6 +11,7 @@ import com.example.kotlinscreenscanner.R
 import com.example.kotlinscreenscanner.ui.login.QuestionnaireActivity
 import com.example.myapplication.LoginViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.timelysoft.tsjdomcom.service.AppPreferences
 import com.timelysoft.tsjdomcom.service.Status
 import kotlinx.android.synthetic.main.activity_number.*
 import kotlinx.android.synthetic.main.fragment_number_bottom_sheet.*
@@ -54,6 +55,7 @@ class NumberBottomSheetFragment(var idPhone: Int) : BottomSheetDialogFragment() 
                                 Toast.makeText(context, data.error.message, Toast.LENGTH_LONG)
                                     .show()
                             } else {
+                                AppPreferences.receivedSms = number_text_sms.text.toString()
                                 val intent = Intent(context, QuestionnaireActivity::class.java)
                                 startActivity(intent)
                             }
